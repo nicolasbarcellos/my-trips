@@ -1,7 +1,23 @@
-import Main from "components/Main"
+import { MapProps } from "components/Map";
+import client from "graphql/client";
+import { GetPlacesQuery } from "graphql/generated/graphql";
+import { GET_PLACES } from "graphql/queries";
+import { GetStaticProps } from "next";
+import React from "react";
 
-export default function Home() {
-  return (
-   <Main />
-  )
+import HomeTemplate from "templates/Home";
+
+export default function Home({ places }: MapProps) {
+  return <HomeTemplate places={places} />;
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { places } = await client.request<GetPlacesQuery>(GET_PLACES);  
+
+  return {
+    props: {
+      places
+    },
+    revalidate: 60 // 1 min
+  }
+};
