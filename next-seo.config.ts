@@ -11,3 +11,5 @@ export default {
     cardType: "summary_large_image",
   },
 };
+
+// teste
